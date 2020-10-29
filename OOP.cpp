@@ -178,11 +178,27 @@ public:
     {
         Nhankhau::in();
         cout<<"\nNgay sinh: "<<ngaysinh.ngay<<"/"<<ngaysinh.thang<<"/"<<ngaysinh.nam;
+	{
+           for (int i = 0; i < n; i++)
+              cout << danhsach[i] << " ";
+	      }
     }
 
     // ham thong ke du lieu
     int thongke()
     {
+        int dem=0;
+	  for(i=0;i<=n;i++){
+    	   if (namnhap-namsinh==18 && thangnhap>=thangsinh && ngaynhap>=ngaysinh){
+    	   	  if(gioitinh==1 && suckhoe==1){
+    	   	  	  dem++;
+				 }
+    	   	   
+		   }
+		
+		   }
+		return dem;
+	}
 
     }
 };
