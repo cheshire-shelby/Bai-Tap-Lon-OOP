@@ -117,6 +117,15 @@ public:
         cout<<"\nNgay sinh: "<<ngaysinh.ngay<<"/"<<ngaysinh.thang<<"/"<<ngaysinh.nam;
         // viet tiep code vao day
     }
+    void indsdihoc(){
+    if(2020 - ngaysinh.nam == 6 && ngaysinh.thang <= 9){
+            cout<<"\n*******************\n";
+    	    cout<<"STT: "<<sothutu;
+            cout<<"\nMSCD: "<<MSCD;
+            cout<<"\nTen: "<<ten;
+            cout<<"\nDia chi: "<<diachi;
+        }
+    }
 };
 
 class Truongthanh : public Nhankhau
@@ -202,3 +211,23 @@ public:
 
     }
 };
+int main(){
+    Tieuhoc a[100];
+	int n;
+    cin>>n;
+	cout<<"\n=====================moi ban nhap danh sach "<<n<< " nhan khau!!!!!==================";
+		for (int i = 0; i < n; i++) {
+			a[i].nhap();
+		}
+	cout<<"\n========================== danh sach nhung nguoi di hoc tieu hoc la !!!!!=======================";
+		for (int i = 0; i < n; i++) {
+			a[i].indsdihoc();
+		}
+	Tieuhoc th;
+	th.nhap();
+	th.in();
+	Truongthanh tH;
+	tH.nhap();
+	tH.in();
+	return 0;
+}
