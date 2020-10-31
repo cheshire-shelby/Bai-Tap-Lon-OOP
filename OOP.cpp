@@ -248,7 +248,7 @@ public:
     }
 
     // ham thong ke du lieu
-    Truongthanh ThongKeNhapNgu()
+    void ThongKeNhapNgu()
     {
         if (Adultlist.empty() == true)
         {
