@@ -180,7 +180,7 @@ public:
                 if (checkDiHoc(Childlist[i].ngaysinh) == true)
                 {
                     cout << "\n"
-                         << "-------------------------------------------------------------" << endl;
+                         << "---------------------Cá nhân đủ tuổi vào tiểu học: --------------" << endl;
                     cout << "Tên: " << Childlist.at(i).Name << endl;
 
                     cout << "Mã Số Công Dân: " << Childlist[i].PersonalCode << endl;
@@ -241,7 +241,7 @@ public:
                      << Adultlist[i].ngaysinh.ngay << " / "
                      << Adultlist[i].ngaysinh.thang << " / "
                      << Adultlist[i].ngaysinh.nam << endl;
-                cout << "--------------------------------------------------------------------"
+                cout << "------------------------------------------------------------------------------------------"
                      << "\n\n";
             }
         }
@@ -266,7 +266,7 @@ public:
                 if (check18(Adultlist[i].GioiTinh, Adultlist[i].Condition, Adultlist[i].ngaysinh) == true)
                 {
                     cout << "\n"
-                         << "-------------------------------------------------------------" << endl;
+                         << "--------------------------------- Người có đủ tuổi nhập ngũ ---------------------" << endl;
                     cout << "Tên: " << Adultlist.at(i).Name << endl;
 
                     cout << "Giới tính: " << Adultlist[i].GioiTinh << endl;
@@ -281,7 +281,7 @@ public:
                          << Adultlist[i].ngaysinh.ngay << " / "
                          << Adultlist[i].ngaysinh.thang << " / "
                          << Adultlist[i].ngaysinh.nam << endl;
-                    cout << "--------------------------------------------------------------------"
+                    cout << "--------------------------------------------------------------------------------------------------"
                          << "\n\n";
                 }
             }
@@ -318,6 +318,8 @@ void NhapTieuHoc(Nhankhau Household)
     cout << "Địa Chỉ: ";
     cin.ignore();
     getline(cin, Child.DiaChi);
+
+    cout<<"\n";
 
     Childlist.push_back(Child);
 }
@@ -361,6 +363,8 @@ void NhapTruongThanh(Nhankhau Household)
     cout << "Địa Chỉ: ";
     cin.ignore();
     getline(cin, Adult.DiaChi);
+
+    cout<<"\n";
 
     Adultlist.push_back(Adult);
 }
