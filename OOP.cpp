@@ -60,12 +60,12 @@ bool checkDateTime(dob Datetime)
         {
             if (Datetime.thang == thang31[i])
             {
-                if (Datetime.ngay == 31)
+                if (Datetime.ngay <= 31 && Datetime.ngay > 0)
                     return true;
             }
             if (Datetime.thang == thang30[i])
             {
-                if (Datetime.ngay == 30)
+                if (Datetime.ngay <= 30 && Datetime.ngay > 0)
                     return true;
             }
         }
