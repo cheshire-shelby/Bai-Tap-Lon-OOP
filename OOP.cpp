@@ -1,59 +1,116 @@
+/*
+hướng làm bài sau khi tổng hợp các cách làm của bạn
+- tạo 3 class như trong đề bài giao 
+- tạp 2 mảng để lưu trữ dữ liệu cho 2 class tiểu học và trưởng thành (vì những người trong class tiểu học và trưởng thành đều
+nằm trong class nhân khẩu)
+- viết hàm check, với những người có tuôỉ trên 18 thì lưu vào mảng trưởng thành, nhỏ hơn thì lưu vào
+mảng tiểu học 
+
+
+*/
 #include <iostream>
 #include <string>
+#include <list>
+#include <vector>
 using namespace std;
 
-//tao class hoac struct ngay thang nam sinh, nen de la struct cho gon va tien, phan nay Duyen lam
+vector<string> info = {"Male", "Female", "Other", "Good", "Bad"};
+class Tieuhoc;
+class Truongthanh;
+
 struct dob
 {
-	int ngay;
-	int thang;
-	int nam;
+    int ngay;
+    int thang;
+    int nam;
 };
 
-//tao kieu du lieu liet ke ten la gioi tinh (gender)
-enum gender
-{
-    Male,
-    Female
-}; // Nam va Nu
+vector<Tieuhoc> Childlist;
+vector<Truongthanh> Adultlist;
 
-//tao kieu du lieu liet ke ten la tinh trang (condition)
-enum conditions
+//check tuoi xem truong thanh hay tieu hoc
+bool checkAdult(dob birthdate)
 {
-    Good,
-    Bad
-};
+    dob DateRightNow;
+    DateRightNow.ngay = 20;
+    DateRightNow.thang = 9;
+    DateRightNow.nam = 2020;
+    if (DateRightNow.nam - birthdate.nam > 18 || DateRightNow.nam - birthdate.nam == 18 && DateRightNow.thang > birthdate.thang)
+        return true;
+    else if (DateRightNow.nam - birthdate.nam == 18 && DateRightNow.thang == birthdate.thang)
+    {
+        if (DateRightNow.ngay > birthdate.ngay)
+            return true;
+        else
+            return false;
+    }
+    else
+        return false;
+}
 
-// tao class nhan khau
+//check xem 18 chua
+bool check18(string sex, string con, dob birthdate)
+{
+    dob DateRightNow;
+    DateRightNow.thang = 9;
+    DateRightNow.nam = 2020;
+    if (sex == info[0] && con == info[3])
+    {
+        if (DateRightNow.nam - birthdate.nam == 18 && DateRightNow.thang == birthdate.thang)
+            return true;
+        else
+            return false;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+// in xem du toi di hoc chua (aka >= 6 tuoi)
+bool checkDiHoc(dob birthdate)
+{
+    dob DateRightNow;
+    DateRightNow.thang = 9;
+    DateRightNow.nam = 2020;
+    if (DateRightNow.nam - birthdate.nam > 6 ||
+        DateRightNow.nam - birthdate.nam == 6 && DateRightNow.thang >= birthdate.thang)
+        return true;
+    else
+        return false;
+}
+
 class Nhankhau
 {
 protected:
-    int sothutu, MSCD;
-    string ten, diachi;
-    gender sex;
+    int SoThuTu, PersonalCode, SoLuong;
+    string Name, DiaChi;
+    string GioiTinh;
+    Nhankhau *nhankhau;
 
 public:
-    // ham nhap du lieu
-    void nhap()
-    {
-    	cout<<"Moi nhap thong tin:\n";
-        cout<<"STT: ";cin>>sothutu;
-        cout<<"MSCD: ";cin>>MSCD;
-        cout<<"Ten: ";	fflush(stdin);
-        getline(cin,ten);
-        cout<<"Dia chi: ";	fflush(stdin);
-        getline(cin,diachi);
-        
-    }
+    dob NgaySinh;
+    friend void NhapTieuHoc(Nhankhau Household);
+    friend void NhapTruongThanh(Nhankhau Household);
 
-    // ham in du lieu
-    void in()
+    void InputInfo()
     {
-    	cout<<"\n*******************\n";
-    	cout<<"STT: "<<sothutu;
-        cout<<"\nMSCD: "<<MSCD;
-        cout<<"\nTen: "<<ten;
-        cout<<"\nDia chi: "<<diachi;
+        cout << "Nhập số lượng nhân khẩu: ";
+        cin >> SoLuong;
+        nhankhau = new Nhankhau[SoLuong];
+        for (int i = 0; i < SoLuong; i++)
+        {
+            cout << "Ngày tháng năm sinh, nhập dạng dd/mm/yyyy: " << endl;
+            cin >> nhankhau[i].NgaySinh.ngay >> nhankhau[i].NgaySinh.thang >> nhankhau[i].NgaySinh.nam;
+            if (checkAdult(nhankhau[i].NgaySinh) == true)
+            {
+                NhapTruongThanh(nhankhau[i]);
+            }
+            else
+            {
+                NhapTieuHoc(nhankhau[i]);
+            }
+        }
     }
 };
 
@@ -63,67 +120,83 @@ protected:
     dob ngaysinh;
 
 public:
-    void nhap()
+    friend void NhapTieuHoc(Nhankhau Household);
+
+    // ham in du lieu
+    void PrintChild()
     {
-        Nhankhau::nhap();
-		cout<<"Nam sinh: ";cin>>ngaysinh.nam;
-		do{
-			cout<<"Thang sinh: ";cin>>ngaysinh.thang;	
-		}while(ngaysinh.thang<1 || ngaysinh.thang>12);	
-	
-		switch(ngaysinh.thang){
-			case 2:
-			{
-				if((ngaysinh.nam%400==0) ||(ngaysinh.nam%4==0 && ngaysinh.nam%100!=0)){
-					do{
-						cout<<"Ngay ngay: ";cin>>ngaysinh.ngay;
-					}
-					while(ngaysinh.ngay<1 ||ngaysinh.ngay>29);}
-				else
-					do{
-						cout<<"Ngay sinh: ";cin>>ngaysinh.ngay;
-					}
-					while(ngaysinh.ngay<1 || ngaysinh.ngay>28);
-				}
-				break;
-			case 4:
-			case 6:
-			case 9:
-			case 11:
-			{
-				do{
-					cout<<"Ngay sinh: ";
-					cin>>ngaysinh.ngay;
-				}
-				while(ngaysinh.ngay<1 ||ngaysinh.ngay>30);
-				break;
-			}
-			default:
-			{
-				do{
-					cout<<"Ngay sinh: ";
-					cin>>ngaysinh.ngay;
-				}
-				while(ngaysinh.ngay<1 || ngaysinh.ngay>31);
-				break;
-			}	
-		}
-        // dien tiep code vao day
+        if (Childlist.empty() == true)
+        {
+            cout << "\n"
+                 << "-------------------------------------------------------------" << endl;
+            cout << "Không có nhân khẩu tiểu học"
+                 << "\n"
+                 << "-------------------------------------------------------------"
+                 << "\n\n";
+        }
+
+        else
+        {
+
+            cout << "----------------- Thông tin nhân khẩu tiểu học ------------------------" << endl;
+            for (int i = 0; i < Childlist.size(); i++)
+            {
+
+                cout << "Tên: " << Childlist.at(i).Name << endl;
+
+                cout << "Mã Số Công Dân: " << Childlist[i].PersonalCode << endl;
+
+                cout << "Địa Chỉ: " << Childlist[i].DiaChi << endl;
+
+                cout << "Giới tính: " << Childlist[i].GioiTinh << endl;
+
+                cout << "Ngày tháng năm sinh: "
+                     << Childlist[i].ngaysinh.ngay << " / "
+                     << Childlist[i].ngaysinh.thang << " / "
+                     << Childlist[i].ngaysinh.nam << endl;
+                cout << "--------------------------------------------------------------------"
+                     << "\n\n";
+            }
+        }
     }
 
-    void in()
+    void printDiHoc()
     {
-        Nhankhau::in();
-        cout<<"\nNgay sinh: "<<ngaysinh.ngay<<"/"<<ngaysinh.thang<<"/"<<ngaysinh.nam;
-        // viet tiep code vao day
-    }
-    void indsdihoc(){
-    if(2020 - ngaysinh.nam == 6 && ngaysinh.thang <= 9){
-            cout<<"\n*******************\n";
-    	    cout<<"STT: "<<sothutu;
-            cout<<"\nMSCD: "<<MSCD;
-            cout<<"\nTen: "<<ten;
-            cout<<"\nDia chi: "<<diachi;
+        if (Childlist.empty() == true)
+        {
+            cout << "\n"
+                 << "-------------------------------------------------------------" << endl;
+            cout << "Không có nhân khẩu tiểu học"
+                 << "\n"
+                 << "-------------------------------------------------------------"
+                 << "\n\n";
+        }
+        else
+        {
+
+            for (int i = 0; i < Childlist.size(); i++)
+            {
+
+                if (checkDiHoc(Childlist[i].ngaysinh) == true)
+                {
+                    cout << "\n"
+                         << "-------------------------------------------------------------" << endl;
+                    cout << "Tên: " << Childlist.at(i).Name << endl;
+
+                    cout << "Mã Số Công Dân: " << Childlist[i].PersonalCode << endl;
+
+                    cout << "Địa Chỉ: " << Childlist[i].DiaChi << endl;
+
+                    cout << "Giới tính: " << Childlist[i].GioiTinh << endl;
+
+                    cout << "Ngày tháng năm sinh: "
+                         << Childlist[i].ngaysinh.ngay << " / "
+                         << Childlist[i].ngaysinh.thang << " / "
+                         << Childlist[i].ngaysinh.nam << endl;
+                    cout << "--------------------------------------------------------------------"
+                         << "\n\n";
+                }
+            }
         }
     }
 };
@@ -132,102 +205,174 @@ class Truongthanh : public Nhankhau
 {
 protected:
     dob ngaysinh;
-    conditions suckhoe;
+    string Condition;
 
 public:
-    void nhap()
-    {
-        Nhankhau::nhap();
-        cout<<"Nam sinh: ";cin>>ngaysinh.nam;
-		do{
-			cout<<"Thang sinh: ";cin>>ngaysinh.thang;	
-		}while(ngaysinh.thang<1 || ngaysinh.thang>12);	
-	
-		switch(ngaysinh.thang){
-			case 2:
-			{
-				if((ngaysinh.nam%400==0) ||(ngaysinh.nam%4==0 && ngaysinh.nam%100!=0)){
-					do{
-						cout<<"Ngay ngay: ";cin>>ngaysinh.ngay;
-					}
-					while(ngaysinh.ngay<1 ||ngaysinh.ngay>29);}
-				else
-					do{
-						cout<<"Ngay sinh: ";cin>>ngaysinh.ngay;
-					}
-					while(ngaysinh.ngay<1 || ngaysinh.ngay>28);
-				}
-				break;
-			case 4:
-			case 6:
-			case 9:
-			case 11:
-			{
-				do{
-					cout<<"Ngay sinh: ";
-					cin>>ngaysinh.ngay;
-				}
-				while(ngaysinh.ngay<1 ||ngaysinh.ngay>30);
-				break;
-			}
-			default:
-			{
-				do{
-					cout<<"Ngay sinh: ";
-					cin>>ngaysinh.ngay;
-				}
-				while(ngaysinh.ngay<1 || ngaysinh.ngay>31);
-				break;
-			}	
-		}
-        // dien tiep code vao day
-    }
+    friend void NhapTruongThanh(Nhankhau Household);
 
-    void in()
+    void PrintAdult()
     {
-        Nhankhau::in();
-        cout<<"\nNgay sinh: "<<ngaysinh.ngay<<"/"<<ngaysinh.thang<<"/"<<ngaysinh.nam;
-	{
-           for (int i = 0; i < n; i++)
-              cout << danhsach[i] << " ";
-	      }
+        if (Adultlist.empty() == true)
+        {
+            cout << "\n"
+                 << "-------------------------------------------------------------" << endl;
+            cout << "Không có nhân khẩu trưởng thành "
+                 << "\n"
+                 << "-------------------------------------------------------------"
+                 << "\n\n";
+        }
+        else
+        {
+            cout << "----------------- Thông tin nhân khẩu trưởng thành ---------------------" << endl;
+            for (int i = 0; i < Adultlist.size(); i++)
+            {
+
+                cout << "Tên: " << Adultlist.at(i).Name << endl;
+
+                cout << "Giới tính: " << Adultlist[i].GioiTinh << endl;
+
+                cout << "Tình trạng sức khoẻ: " << Adultlist[i].Condition << endl;
+
+                cout << "Mã số công dân: " << Adultlist[i].PersonalCode << endl;
+
+                cout << "Địa chỉ: " << Adultlist[i].DiaChi << endl;
+
+                cout << "Ngày tháng năm sinh: "
+                     << Adultlist[i].ngaysinh.ngay << " / "
+                     << Adultlist[i].ngaysinh.thang << " / "
+                     << Adultlist[i].ngaysinh.nam << endl;
+                cout << "--------------------------------------------------------------------"
+                     << "\n\n";
+            }
+        }
     }
 
     // ham thong ke du lieu
-    int thongke()
+    Truongthanh ThongKeNhapNgu()
     {
-        int dem=0;
-	  for(i=0;i<=n;i++){
-    	   if (namnhap-namsinh==18 && thangnhap>=thangsinh && ngaynhap>=ngaysinh){
-    	   	  if(gioitinh==1 && suckhoe==1){
-    	   	  	  dem++;
-				 }
-    	   	   
-		   }
-		
-		   }
-		return dem;
-	}
+        if (Adultlist.empty() == true)
+        {
+            cout << "\n"
+                 << "-------------------------------------------------------------" << endl;
+            cout << "Không có nhân khẩu trưởng thành "
+                 << "\n"
+                 << "-------------------------------------------------------------"
+                 << "\n\n";
+        }
+        else
+        {
+            for (int i = 0; i < Adultlist.size(); i++)
+            {
+                if (check18(Adultlist[i].GioiTinh, Adultlist[i].Condition, Adultlist[i].ngaysinh) == true)
+                {
+                    cout << "\n"
+                         << "-------------------------------------------------------------" << endl;
+                    cout << "Tên: " << Adultlist.at(i).Name << endl;
 
+                    cout << "Giới tính: " << Adultlist[i].GioiTinh << endl;
+
+                    cout << "Tình trạng sức khoẻ: " << Adultlist[i].Condition << endl;
+
+                    cout << "Mã số công dân: " << Adultlist[i].PersonalCode << endl;
+
+                    cout << "Địa chỉ: " << Adultlist[i].DiaChi << endl;
+
+                    cout << "Ngày tháng năm sinh: "
+                         << Adultlist[i].ngaysinh.ngay << " / "
+                         << Adultlist[i].ngaysinh.thang << " / "
+                         << Adultlist[i].ngaysinh.nam << endl;
+                    cout << "--------------------------------------------------------------------"
+                         << "\n\n";
+                }
+            }
+        }
     }
 };
-int main(){
-    Tieuhoc a[100];
-	int n;
-    cin>>n;
-	cout<<"\n=====================moi ban nhap danh sach "<<n<< " nhan khau!!!!!==================";
-		for (int i = 0; i < n; i++) {
-			a[i].nhap();
-		}
-	cout<<"\n========================== danh sach nhung nguoi di hoc tieu hoc la !!!!!=======================";
-		for (int i = 0; i < n; i++) {
-			a[i].indsdihoc();
-		}
-	Tieuhoc th;
-	th.nhap();
-	th.in();
-	Truongthanh tH;
-	tH.nhap();
-	tH.in();
-	return 0;
+
+void NhapTieuHoc(Nhankhau Household)
+{
+
+    Tieuhoc Child;
+    char sex;
+
+    Child.ngaysinh = Household.NgaySinh;
+
+    cout << "Nhập tên: ";
+    cin.ignore();
+    getline(cin, Child.Name);
+
+    cout << "Giới Tính (F/M/O): ";
+    cin >> sex;
+    if (sex == 'M' || 'm')
+        Child.GioiTinh = info[0];
+    else if (sex == 'F' || 'F')
+        Child.GioiTinh = info[1];
+    else if (sex == 'O' || 'o')
+        Child.GioiTinh = info[2];
+    else
+        cout << "Nhập không đúng, xin hãy nhập F/M/O";
+
+    cout << "Mã Số Công Dân: ";
+    cin >> Child.PersonalCode;
+
+    cout << "Địa Chỉ: ";
+    cin.ignore();
+    getline(cin, Child.DiaChi);
+
+    Childlist.push_back(Child);
+}
+
+void NhapTruongThanh(Nhankhau Household)
+{
+
+    Truongthanh Adult;
+    char sex;
+    char condition;
+
+    Adult.ngaysinh = Household.NgaySinh;
+
+    cout << "Nhập tên: ";
+    cin.ignore();
+    getline(cin, Adult.Name);
+
+    cout << "Giới Tính (F/M/O): ";
+    cin >> sex;
+    if (sex == 'M' || 'm')
+        Adult.GioiTinh = info[0];
+    else if (sex == 'F' || 'F')
+        Adult.GioiTinh = info[1];
+    else if (sex == 'O' || 'o')
+        Adult.GioiTinh = info[2];
+    else
+        cout << "Nhập không đúng, xin hãy nhập F/M/O";
+
+    cout << "Tình trạng sức khoẻ (G/B) :";
+    cin >> condition;
+    if (condition == 'B' || 'b')
+        Adult.Condition = info[3];
+    else if (condition == 'B' || 'b')
+        Adult.Condition = info[4];
+    else
+        cout << "Nhập không đúng, xin hãy nhập G/B";
+
+    cout << "Mã Số Công Dân: ";
+    cin >> Adult.PersonalCode;
+
+    cout << "Địa Chỉ: ";
+    cin.ignore();
+    getline(cin, Adult.DiaChi);
+
+    Adultlist.push_back(Adult);
+}
+
+int main()
+{
+    Nhankhau Household;
+    Tieuhoc Child;
+    Truongthanh Adult;
+    Household.InputInfo();
+    Child.PrintChild();
+    Child.printDiHoc();
+    Adult.PrintAdult();
+    Adult.ThongKeNhapNgu();
 }
