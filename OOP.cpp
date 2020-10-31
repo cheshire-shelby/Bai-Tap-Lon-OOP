@@ -39,7 +39,7 @@ bool checkAdult(dob birthdate)
         return true;
     else if (DateRightNow.nam - birthdate.nam == 18 && DateRightNow.thang == birthdate.thang)
     {
-        if (DateRightNow.ngay > birthdate.ngay)
+        if (DateRightNow.ngay >= birthdate.ngay)
             return true;
         else
             return false;
