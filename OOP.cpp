@@ -15,6 +15,9 @@ mảng tiểu học
 using namespace std;
 
 vector<string> info = {"Male", "Female", "Other", "Good", "Bad"};
+int thang31[7] = {1, 3, 5, 7, 8, 10, 12};
+int thang30[5] = {2, 3, 6, 9, 11};
+
 class Tieuhoc;
 class Truongthanh;
 
@@ -27,6 +30,47 @@ struct dob
 
 vector<Tieuhoc> Childlist;
 vector<Truongthanh> Adultlist;
+
+bool checkDateTime(dob Datetime)
+{
+    if ((Datetime.nam % 400 == 0) || (Datetime.nam % 4 == 0 && Datetime.nam % 100 != 0))
+    {
+        if (Datetime.thang == 2 && Datetime.ngay <= 29)
+            return true;
+        else
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                if (Datetime.thang == thang31[i])
+                {
+                    if (Datetime.ngay <= 31 && Datetime.ngay > 0)
+                        return true;
+                }
+                if (Datetime.thang == thang30[i])
+                {
+                    if (Datetime.ngay <= 30 && Datetime.ngay > 0)
+                        return true;
+                }
+            }
+        }
+    }
+    else
+    {
+        for (int i = 0; i < 7; i++)
+        {
+            if (Datetime.thang == thang31[i])
+            {
+                if (Datetime.ngay == 31)
+                    return true;
+            }
+            if (Datetime.thang == thang30[i])
+            {
+                if (Datetime.ngay == 30)
+                    return true;
+            }
+        }
+    }
+}
 
 //check tuoi xem truong thanh hay tieu hoc
 bool checkAdult(dob birthdate)
@@ -102,13 +146,20 @@ public:
         {
             cout << "Ngày tháng năm sinh, nhập dạng dd/mm/yyyy: " << endl;
             cin >> nhankhau[i].NgaySinh.ngay >> nhankhau[i].NgaySinh.thang >> nhankhau[i].NgaySinh.nam;
-            if (checkAdult(nhankhau[i].NgaySinh) == true)
+            if (checkDateTime(nhankhau[i].NgaySinh) == true)
             {
-                NhapTruongThanh(nhankhau[i]);
+                if (checkAdult(nhankhau[i].NgaySinh) == true)
+                {
+                    NhapTruongThanh(nhankhau[i]);
+                }
+                else
+                {
+                    NhapTieuHoc(nhankhau[i]);
+                }
             }
             else
             {
-                NhapTieuHoc(nhankhau[i]);
+                cout << "Ngày tháng năm không hợp lệ" << endl;
             }
         }
     }
@@ -319,7 +370,7 @@ void NhapTieuHoc(Nhankhau Household)
     cin.ignore();
     getline(cin, Child.DiaChi);
 
-    cout<<"\n";
+    cout << "\n";
 
     Childlist.push_back(Child);
 }
@@ -364,7 +415,7 @@ void NhapTruongThanh(Nhankhau Household)
     cin.ignore();
     getline(cin, Adult.DiaChi);
 
-    cout<<"\n";
+    cout << "\n";
 
     Adultlist.push_back(Adult);
 }
