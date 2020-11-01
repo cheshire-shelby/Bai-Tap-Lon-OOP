@@ -5,8 +5,6 @@ hướng làm bài sau khi tổng hợp các cách làm của bạn
 nằm trong class nhân khẩu)
 - viết hàm check, với những người có tuôỉ trên 18 thì lưu vào mảng trưởng thành, nhỏ hơn thì lưu vào
 mảng tiểu học 
-
-
 */
 #include <iostream>
 #include <string>
@@ -216,7 +214,7 @@ public:
         {
             cout << "\n"
                  << "-------------------------------------------------------------" << endl;
-            cout << "Không có nhân khẩu tiểu học"
+            cout << "Không có ai trong độ tuổi đi học"
                  << "\n"
                  << "-------------------------------------------------------------"
                  << "\n\n";
@@ -304,7 +302,7 @@ public:
         {
             cout << "\n"
                  << "-------------------------------------------------------------" << endl;
-            cout << "Không có nhân khẩu trưởng thành "
+            cout << "Không có ai trong độ tuổi nhập ngũ"
                  << "\n"
                  << "-------------------------------------------------------------"
                  << "\n\n";
@@ -346,18 +344,18 @@ void NhapTieuHoc(Nhankhau Household)
     char sex;
 
     Child.ngaysinh = Household.NgaySinh;
-
+    //vector<string> info = {"Male", "Female", "Other", "Good", "Bad"};
     cout << "Nhập tên: ";
     cin.ignore();
     getline(cin, Child.Name);
 
     cout << "Giới Tính (F/M/O): ";
     cin >> sex;
-    if (sex == 'M' || 'm')
+    if (sex == 'M' || sex == 'm')
         Child.GioiTinh = info[0];
-    else if (sex == 'F' || 'F')
+    else if (sex == 'F' || sex == 'f')
         Child.GioiTinh = info[1];
-    else if (sex == 'O' || 'o')
+    else if (sex == 'O' || sex == 'o')
         Child.GioiTinh = info[2];
     else
         cout << "Nhập không đúng, xin hãy nhập F/M/O";
@@ -389,20 +387,20 @@ void NhapTruongThanh(Nhankhau Household)
 
     cout << "Giới Tính (F/M/O): ";
     cin >> sex;
-    if (sex == 'M' || 'm')
+    if (sex == 'M' || sex == 'm')
         Adult.GioiTinh = info[0];
-    else if (sex == 'F' || 'F')
+    else if (sex == 'F' || sex == 'F')
         Adult.GioiTinh = info[1];
-    else if (sex == 'O' || 'o')
+    else if (sex == 'O' || sex == 'o')
         Adult.GioiTinh = info[2];
     else
         cout << "Nhập không đúng, xin hãy nhập F/M/O";
 
     cout << "Tình trạng sức khoẻ (G/B) :";
     cin >> condition;
-    if (condition == 'B' || 'b')
+    if (condition == 'G' || condition == 'g')
         Adult.Condition = info[3];
-    else if (condition == 'B' || 'b')
+    else if (condition == 'B' || condition == 'b')
         Adult.Condition = info[4];
     else
         cout << "Nhập không đúng, xin hãy nhập G/B";
