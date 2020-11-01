@@ -11,7 +11,7 @@ mảng tiểu học
 #include <vector>
 using namespace std;
 
-vector<string> info = {"Male", "Female", "Other", "Good", "Bad"};
+vector<string> info = {"Nam", "Nữ", "Khác", "Tốt", "Xấu"};
 int thang31[7] = {1, 3, 5, 7, 8, 10, 12};
 int thang30[5] = {2, 3, 6, 9, 11};
 
@@ -25,8 +25,8 @@ struct dob
     int nam;
 };
 
-vector<Tieuhoc> Childlist;
-vector<Truongthanh> Adultlist;
+vector<Tieuhoc> Childlist; //Child: trẻ con
+vector<Truongthanh> Adultlist; // Adult : trưởng thành
 
 bool checkDateTime(dob Datetime)
 {
@@ -70,7 +70,7 @@ bool checkDateTime(dob Datetime)
 }
 
 //check tuoi xem truong thanh hay tieu hoc
-bool checkAdult(dob birthdate)
+bool checkAdult(dob birthdate) // birthdate: ngày sinh
 {
     dob DateRightNow;
     DateRightNow.ngay = 20;
@@ -90,9 +90,9 @@ bool checkAdult(dob birthdate)
 }
 
 //check xem 18 chua
-bool check18(string sex, string con, dob birthdate)
+bool check18(string sex, string con, dob birthdate) // con trong condition: tình trạng
 {
-    dob DateRightNow;
+    dob DateRightNow; // thời gian hiên tại (theo đầu bài là 9-2020)
     DateRightNow.thang = 9;
     DateRightNow.nam = 2020;
     if (sex == info[0] && con == info[3])
@@ -124,14 +124,14 @@ bool checkDiHoc(dob birthdate)
 class Nhankhau
 {
 protected:
-    int SoThuTu, PersonalCode, SoLuong;
+    int SoThuTu, PersonalCode, SoLuong; //personal code: Mã số cá nhân/ chứng minh thư/ mã nhân khẩu
     string Name, DiaChi;
     string GioiTinh;
     Nhankhau *nhankhau;
 
 public:
     dob NgaySinh;
-    friend void NhapTieuHoc(Nhankhau Household);
+    friend void NhapTieuHoc(Nhankhau Household); //household: nhân khẩu
     friend void NhapTruongThanh(Nhankhau Household);
 
     void InputInfo()
@@ -253,7 +253,7 @@ class Truongthanh : public Nhankhau
 {
 protected:
     dob ngaysinh;
-    string Condition;
+    string Condition; //condition tình trạng
 
 public:
     friend void NhapTruongThanh(Nhankhau Household);
