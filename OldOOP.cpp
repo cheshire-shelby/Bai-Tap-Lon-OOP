@@ -13,46 +13,41 @@ string info[5] = {"Male", "Female", "Other", "Good", "Bad"};
 
 class Nhankhau
 {
-protected:
-    int SoLuong, sothutu, MSCD;
-    string Ten, DiaChi;
-    string GioiTinh;
 
 public:
     // ham nhap du lieu
-
-    void nhap(Nhankhau nhankhau)
+    int SoLuong, sothutu, MSCD;
+    string Ten, DiaChi;
+    string GioiTinh;
+    Nhankhau nhap()
     {
-        cout << "Moi nhap thong tin:\n";
-        for (int i = 0; i < SoLuong; i++)
-        {
-            cout << "STT: ";
-            cin >> nhankhau.sothutu;
+        Nhankhau nhankhau;
+        cout << "STT: ";
+        cin >> nhankhau.sothutu;
 
-            cout << "MSCD: ";
-            cin >> nhankhau.MSCD;
+        cout << "MSCD: ";
+        cin >> nhankhau.MSCD;
 
-            cout << "Ten: ";
-            fflush(stdin);
-            getline(cin, nhankhau.Ten);
+        cout << "Ten: ";
+        cin.ignore();
+        getline(cin, nhankhau.Ten);
 
-            cout << "Dia chi: ";
-            fflush(stdin);
-            getline(cin, nhankhau.DiaChi);
-        }
+        cout << "Dia chi: ";
+        cin.ignore();
+        getline(cin, nhankhau.DiaChi);
+
+        return nhankhau;
     }
 
     // ham in du lieu
     void in(Nhankhau nhankhau)
     {
         cout << "\n*******************\n";
-        for (int i = 0; i < SoLuong; i++)
-        {
-            cout << "STT: " << nhankhau.sothutu;
-            cout << "\nMSCD: " << nhankhau.MSCD;
-            cout << "\nTen: " << nhankhau.Ten;
-            cout << "\nDia chi: " << nhankhau.DiaChi;
-        }
+
+        cout << "STT: " << nhankhau.sothutu;
+        cout << "\nMSCD: " << nhankhau.MSCD;
+        cout << "\nTen: " << nhankhau.Ten;
+        cout << "\nDia chi: " << nhankhau.DiaChi;
     }
 };
 
@@ -71,33 +66,38 @@ public:
         tieuhoc = new Tieuhoc[soluongTH];
         for (int i = 0; i < soluongTH; i++)
         {
-            Nhankhau::nhap(tieuhoc[i]);
+            Nhankhau household; // dung de luu tru thong tin da nhap vao
+            household = Nhankhau::nhap();
+            tieuhoc[i].DiaChi = household.DiaChi;
+            tieuhoc[i].Ten = household.Ten;
+            tieuhoc[i].sothutu = household.sothutu;
+            tieuhoc[i].MSCD = household.MSCD;
             cout << "Nam sinh: ";
-            cin >> ngaysinh.nam;
+            cin >> tieuhoc[i].ngaysinh.nam;
             do
             {
                 cout << "Thang sinh: ";
-                cin >> ngaysinh.thang;
-            } while (ngaysinh.thang < 1 || ngaysinh.thang > 12);
+                cin >> tieuhoc[i].ngaysinh.thang;
+            } while (tieuhoc[i].ngaysinh.thang < 1 || tieuhoc[i].ngaysinh.thang > 12);
 
-            switch (ngaysinh.thang)
+            switch (tieuhoc[i].ngaysinh.thang)
             {
             case 2:
             {
-                if ((ngaysinh.nam % 400 == 0) || (ngaysinh.nam % 4 == 0 && ngaysinh.nam % 100 != 0))
+                if ((tieuhoc[i].ngaysinh.nam % 400 == 0) || (tieuhoc[i].ngaysinh.nam % 4 == 0 && tieuhoc[i].ngaysinh.nam % 100 != 0))
                 {
                     do
                     {
                         cout << "Ngay ngay: ";
-                        cin >> ngaysinh.ngay;
-                    } while (ngaysinh.ngay < 1 || ngaysinh.ngay > 29);
+                        cin >> tieuhoc[i].ngaysinh.ngay;
+                    } while (tieuhoc[i].ngaysinh.ngay < 1 || tieuhoc[i].ngaysinh.ngay > 29);
                 }
                 else
                     do
                     {
                         cout << "Ngay sinh: ";
-                        cin >> ngaysinh.ngay;
-                    } while (ngaysinh.ngay < 1 || ngaysinh.ngay > 28);
+                        cin >> tieuhoc[i].ngaysinh.ngay;
+                    } while (tieuhoc[i].ngaysinh.ngay < 1 || tieuhoc[i].ngaysinh.ngay > 28);
             }
             break;
             case 4:
@@ -108,8 +108,8 @@ public:
                 do
                 {
                     cout << "Ngay sinh: ";
-                    cin >> ngaysinh.ngay;
-                } while (ngaysinh.ngay < 1 || ngaysinh.ngay > 30);
+                    cin >> tieuhoc[i].ngaysinh.ngay;
+                } while (tieuhoc[i].ngaysinh.ngay < 1 || tieuhoc[i].ngaysinh.ngay > 30);
                 break;
             }
             default:
@@ -117,8 +117,8 @@ public:
                 do
                 {
                     cout << "Ngay sinh: ";
-                    cin >> ngaysinh.ngay;
-                } while (ngaysinh.ngay < 1 || ngaysinh.ngay > 31);
+                    cin >> tieuhoc[i].ngaysinh.ngay;
+                } while (tieuhoc[i].ngaysinh.ngay < 1 || tieuhoc[i].ngaysinh.ngay > 31);
                 break;
             }
             }
@@ -130,11 +130,14 @@ public:
         for (int i = 0; i < soluongTH; i++)
         {
 
-            Nhankhau::in(tieuhoc[i]);
+            cout << "STT" << tieuhoc[i].sothutu << endl;
+            cout << "MSCD" << tieuhoc[i].MSCD << endl;
+            cout << "ten: " << tieuhoc[i].Ten << endl;
+            cout << "Dia chi: " << tieuhoc[i].DiaChi << endl;
             cout << "\nNgay sinh: "
                  << tieuhoc[i].ngaysinh.ngay
                  << "/" << tieuhoc[i].ngaysinh.thang
-                 << "/" << tieuhoc[i].ngaysinh.nam;
+                 << "/" << tieuhoc[i].ngaysinh.nam << endl;
         }
     }
     void indsdihoc()
@@ -143,10 +146,15 @@ public:
             if (2020 - tieuhoc[i].ngaysinh.nam == 6 && tieuhoc[i].ngaysinh.thang <= 9)
             {
                 cout << "\n*******************\n";
-                cout << "STT: " << tieuhoc[i].sothutu;
-                cout << "\nMSCD: " << tieuhoc[i].MSCD;
-                cout << "\nTen: " << tieuhoc[i].Ten;
-                cout << "\nDia chi: " << tieuhoc[i].DiaChi;
+
+                cout << "STT" << tieuhoc[i].sothutu << endl;
+                cout << "MSCD" << tieuhoc[i].MSCD << endl;
+                cout << "ten: " << tieuhoc[i].Ten << endl;
+                cout << "Dia chi: " << tieuhoc[i].DiaChi << endl;
+                cout << "\nNgay sinh: "
+                     << tieuhoc[i].ngaysinh.ngay
+                     << "/" << tieuhoc[i].ngaysinh.thang
+                     << "/" << tieuhoc[i].ngaysinh.nam << endl;
             }
     }
 };
@@ -170,7 +178,12 @@ public:
         Adult = new Truongthanh[SoLuongTruongThanh];
         for (int i = 0; i < SoLuongTruongThanh; i++)
         {
-            Nhankhau::nhap(Adult[i]);
+            Nhankhau household;
+            household = Nhankhau::nhap();
+            Adult[i].DiaChi = household.DiaChi;
+            Adult[i].Ten = household.Ten;
+            Adult[i].sothutu = household.sothutu;
+            Adult[i].MSCD = household.MSCD;
             cout << "Giới Tính (F/M/O): ";
             cin >> sex;
             if (sex == 'M' || sex == 'm')
@@ -254,7 +267,11 @@ public:
         for (int i = 0; i < SoLuongTruongThanh; i++)
         {
 
-            Nhankhau::in(Adult[i]);
+            cout << "STT" << Adult[i].sothutu << endl;
+            cout << "MSCD" << Adult[i].MSCD << endl;
+            cout << "ten: " << Adult[i].Ten << endl;
+            cout << "Dia chi: " << Adult[i].DiaChi << endl;
+
             cout << "\nNgay sinh: "
                  << Adult[i].ngaysinh.ngay
                  << "/"
@@ -291,7 +308,7 @@ int main()
     Truongthanh Adult;
 
     Child.nhap();
-    Adult.nhap();
+    // Adult.nhap();
 
     cout << "\n=====================danh sach nhan khau tieu hoc!!!!!==================";
     Child.in();
@@ -303,7 +320,7 @@ int main()
     Adult.in();
 
     cout << "\n=====================so nhan khau truong thanh du tuoi di quan su!!!!!==================";
-    Adult.thongke();
+    cout << Adult.thongke();
 
     return 0;
 }
