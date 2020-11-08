@@ -1,5 +1,6 @@
 /*
 Nhom Truong: Vu Thai Son-K185480106048
+
 Các thành viên trong nhóm:
 Nguyen Thi Duyen
 Tran Van Ngoan
@@ -91,13 +92,15 @@ public:
 vector<Tieuhoc> Childlist;     // danh sach tre con
 vector<Truongthanh> Adultlist; // danh sach nguoi lon
 
-struct dob //ngay thang nam sinh ( date of birth)
+// Tao kieu ngay thang nam sinh ( date of birth)
+struct dob 
 {
     int ngay;
     int thang;
     int nam;
 };
 
+// Ham kiem tra thoi gian nhap co hop le khong 
 bool checkDateTime(dob Datetime)
 {
     if ((Datetime.nam % 400 == 0) || (Datetime.nam % 4 == 0 && Datetime.nam % 100 != 0))
@@ -144,7 +147,9 @@ bool checkDateTime(dob Datetime)
     }
 }
 
-//check tuoi xem truong thanh hay tieu hoc
+
+// Ham check tuoi xem truong thanh ( tuoi >= 18) hay tieu hoc (<18)
+// Lay thoi diem hien tai la 20-9-2020
 bool checkAdult(dob birthdate) // birthdate: ngay sinh, Adult: nguoi lon
 {
     dob DateRightNow; // thoi gian hien tai
@@ -164,13 +169,14 @@ bool checkAdult(dob birthdate) // birthdate: ngay sinh, Adult: nguoi lon
         return false;
 }
 
-//check xem 18 chua
-bool check18(string sex, string con, dob birthdate)
+//check tuoi == 18 chua de di NVQS
+bool Equal18(string sex, string con, dob birthdate)
 {
     dob DateRightNow;
     DateRightNow.thang = 9;
     DateRightNow.nam = 2020;
-    //vector<string> info = {"Male", "Female", "Other", "Good", "Bad"};
+
+    //info = {"Male", "Female", "Other", "Good", "Bad"};
     if (sex == info[0] && con == info[3])
     {
         if (DateRightNow.nam - birthdate.nam == 18 && DateRightNow.thang >= birthdate.thang)
@@ -183,6 +189,7 @@ bool check18(string sex, string con, dob birthdate)
         return false;
     }
 }
+
 
 // in xem du toi di hoc chua (aka >= 6 tuoi)
 bool checkDiHoc(dob birthdate)
@@ -197,12 +204,14 @@ bool checkDiHoc(dob birthdate)
         return false;
 }
 
+
 class Nhankhau
 {
 protected:
     int SoThuTu, PersonalCode; // Personal Code: chung minh nhan dan, ma so cong dan
     int SoLuong;
-    //vector<string> info = {"Male", "Female", "Other", "Good", "Bad"};
+
+    //info = {"Male", "Female", "Other", "Good", "Bad"};
     string Name, DiaChi;
     string GioiTinh;
     Nhankhau *nhankhau;
@@ -211,12 +220,15 @@ public:
     dob NgaySinh;
     friend void NhapTieuHoc(Nhankhau Household); //Household: nhan khau
     friend void NhapTruongThanh(Nhankhau Household);
-
+    
+    // Y tuong: Nhap ngay thang nam sinh cua Nhan khau, neu
+    // >= 18 thi se chay ham NhapTruongThanh(),
+    // < 18 thi se chay ham NhapTieuHoc()
     void InputInfo()
     {
         cout << "So luong nhan khau: ";
         cin >> SoLuong;
-        nhankhau = new Nhankhau[SoLuong]; // con tro tro vao mang
+        nhankhau = new Nhankhau[SoLuong];
         for (int i = 0; i < SoLuong; i++)
         {
         jump:
@@ -251,7 +263,7 @@ public:
     friend void NhapTieuHoc(Nhankhau Household);
 
     // ham in du lieu
-    void PrintChild() // Childlist la 1
+    void PrintChild() 
     {
         if (Childlist.empty() == true)
         {
@@ -393,7 +405,7 @@ public:
                  << "--------------------------------- Nguoi trong do tuoi nhap ngu ---------------------" << endl;
             for (int i = 0; i < Adultlist.size(); i++)
             {
-                if (check18(Adultlist[i].GioiTinh, Adultlist[i].Condition, Adultlist[i].ngaysinh) == true)
+                if (Equal18(Adultlist[i].GioiTinh, Adultlist[i].Condition, Adultlist[i].ngaysinh) == true)
                 {
                     cout << "Tên: " << Adultlist[i].Name << endl;
 
@@ -425,7 +437,9 @@ void NhapTieuHoc(Nhankhau Household) // Household : nhan khau
     char sex;
 
     Child.ngaysinh = Household.NgaySinh;
-    //vector<string> info = {"Male", "Female", "Other", "Good", "Bad"};
+
+    //info = {"Male", "Female", "Other", "Good", "Bad"};
+    
     cout << "\nNhập tên: ";
     cin.ignore();
     getline(cin, Child.Name);
@@ -523,9 +537,12 @@ int main()
     Nhankhau Household;
     Tieuhoc Child;
     Truongthanh Adult;
+
     Household.InputInfo();
+
     Child.PrintChild();
     Child.printDiHoc();
+
     Adult.PrintAdult();
     Adult.ThongKeNhapNgu();
 }
